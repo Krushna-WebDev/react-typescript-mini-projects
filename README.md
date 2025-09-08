@@ -34,15 +34,12 @@ A combined **React + TypeScript project** featuring:
 ## Folder Structure
 ```
 src/
- ┣ features/
- ┃ ┣ todo/
- ┃ ┃ ┣ Todo.tsx
- ┃ ┃ ┣ TodoItem.tsx
- ┃ ┃ ┗ index.ts
- ┃ ┗ crypto/
- ┃   ┣ CryptoCard.tsx
- ┃   ┣ CryptoList.tsx
- ┃   ┗ index.ts
+ ┣ components/
+ ┃ ┣ Crypto/
+ ┃ ┃ ┗ Crypto.tsx
+ ┃ ┗ Todo/
+ ┃   ┣ Todo.tsx
+ ┃   ┗ TodoTs.tsx
  ┣ App.tsx
  ┣ main.tsx
 ```
