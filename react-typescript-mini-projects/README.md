@@ -1,69 +1,80 @@
-# React + TypeScript + Vite
+# React Todo & Crypto Tracker
 
-This template provides a minimal setup to get React working in Vite with HMR and some ESLint rules.
+A combined **React + TypeScript project** featuring:
 
-Currently, two official plugins are available:
+- **Todo App**: Add, delete, toggle, and filter tasks.
+- **Crypto Tracker**: Display multiple cryptocurrencies with price and 24h change. Conditional styling for gains/losses.
 
-- [@vitejs/plugin-react](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react) uses [Babel](https://babeljs.io/) for Fast Refresh
-- [@vitejs/plugin-react-swc](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react-swc) uses [SWC](https://swc.rs/) for Fast Refresh
+---
 
-## Expanding the ESLint configuration
+## Features
 
-If you are developing a production application, we recommend updating the configuration to enable type-aware lint rules:
+### Todo App
+- Add new tasks
+- Mark tasks as completed
+- Delete tasks
+- Filter tasks (All, Completed, Pending)
+- Organized components (`Todo.tsx`, `TodoItem.tsx`)
 
-```js
-export default tseslint.config([
-  globalIgnores(['dist']),
-  {
-    files: ['**/*.{ts,tsx}'],
-    extends: [
-      // Other configs...
+### Crypto Tracker
+- Display array of cryptocurrencies
+- Conditional styling: green for positive change, red for negative
+- Hover effects for better UI
+- Reusable `CryptoCard` component
 
-      // Remove tseslint.configs.recommended and replace with this
-      ...tseslint.configs.recommendedTypeChecked,
-      // Alternatively, use this for stricter rules
-      ...tseslint.configs.strictTypeChecked,
-      // Optionally, add this for stylistic rules
-      ...tseslint.configs.stylisticTypeChecked,
+---
 
-      // Other configs...
-    ],
-    languageOptions: {
-      parserOptions: {
-        project: ['./tsconfig.node.json', './tsconfig.app.json'],
-        tsconfigRootDir: import.meta.dirname,
-      },
-      // other options...
-    },
-  },
-])
+## Tech Stack
+- React
+- TypeScript
+- Tailwind CSS
+
+---
+
+## Folder Structure
+```
+src/
+ ┣ features/
+ ┃ ┣ todo/
+ ┃ ┃ ┣ Todo.tsx
+ ┃ ┃ ┣ TodoItem.tsx
+ ┃ ┃ ┗ index.ts
+ ┃ ┗ crypto/
+ ┃   ┣ CryptoCard.tsx
+ ┃   ┣ CryptoList.tsx
+ ┃   ┗ index.ts
+ ┣ App.tsx
+ ┣ main.tsx
 ```
 
-You can also install [eslint-plugin-react-x](https://github.com/Rel1cx/eslint-react/tree/main/packages/plugins/eslint-plugin-react-x) and [eslint-plugin-react-dom](https://github.com/Rel1cx/eslint-react/tree/main/packages/plugins/eslint-plugin-react-dom) for React-specific lint rules:
+---
 
-```js
-// eslint.config.js
-import reactX from 'eslint-plugin-react-x'
-import reactDom from 'eslint-plugin-react-dom'
+## Getting Started
 
-export default tseslint.config([
-  globalIgnores(['dist']),
-  {
-    files: ['**/*.{ts,tsx}'],
-    extends: [
-      // Other configs...
-      // Enable lint rules for React
-      reactX.configs['recommended-typescript'],
-      // Enable lint rules for React DOM
-      reactDom.configs.recommended,
-    ],
-    languageOptions: {
-      parserOptions: {
-        project: ['./tsconfig.node.json', './tsconfig.app.json'],
-        tsconfigRootDir: import.meta.dirname,
-      },
-      // other options...
-    },
-  },
-])
+1. Clone the repository
+```bash
+git clone https://github.com/<username>/react-todo-crypto.git
 ```
+
+2. Navigate to project folder
+```bash
+cd react-todo-crypto
+```
+
+3. Install dependencies
+```bash
+npm install
+```
+
+4. Run the project
+```bash
+npm run dev
+```
+
+---
+
+## Notes
+- Day-2 project of learning React + TypeScript
+- Minimal AI guidance used only for design clarification
+- Project structured for **clean folder separation** and **reusable components**
+- This project is **only for practice to improve my skills**
