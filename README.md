@@ -53,7 +53,7 @@ src/
 
 1. Clone the repository
 ```bash
-git clone https://github.com/<username>/react-todo-crypto.git
+git clone https://github.com/Krushna-WebDev/react-typescript-mini-projects.git
 ```
 
 2. Navigate to project folder
