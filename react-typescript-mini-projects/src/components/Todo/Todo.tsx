@@ -1,4 +1,4 @@
-import React, { use, useState } from "react";
+import React, { useEffect, useState } from "react";
 import TodoTs from "./TodoTs";
 
 interface TodoItem {
@@ -9,17 +9,26 @@ type FilterInterface = "All" | "Completed" | "Pending";
 
 const Todo = () => {
   const [input, setinput] = useState<string>("");
-  const [todo, setTodo] = useState<TodoItem[]>([]);
-  const [Model, setModel] = useState(false);
+  const [SearchInput, setSearchinput] = useState<string>("");
+  const [todo, setTodo] = useState<TodoItem[]>(()=>{
+    const todos= localStorage.getItem("todos")
+    return todos ? JSON.parse(todos) : []
+});
+  const [Model, setModel] = useState(false); 
   const [editValue, setEditValue] = useState<string>("");
   const [editIndex, setEditIndex] = useState<number>(-1);
   const [FilterBy, setFilterBy] = useState<FilterInterface>("All");
   const AddTodo = () => {
+    const duplicate = [...todo].find((todo) => todo.name === input);
+    if (duplicate) return alert("duplicate not allowed");
     if (input === "") return alert("Input is Empty");
     setTodo([...todo, { name: input, completed: false }]);
     setinput("");
   };
 
+  useEffect(() => {
+    localStorage.setItem("todos", JSON.stringify(todo));
+  }, [todo]);
   const DeleteTodo = (index: number): void => {
     const newTodos = todo.filter((_, i) => i !== index);
     setTodo(newTodos);
@@ -47,49 +56,98 @@ const Todo = () => {
     setTodo(newTodos);
   };
 
-  const FilterTodo = todo.filter((todo, index) => {
+  const FilterTodo = todo.filter((todo) => {
     if (FilterBy === "All") return true;
     if (FilterBy === "Completed") return todo.completed;
     if (FilterBy === "Pending") return !todo.completed;
     return true;
   });
-  console.log(FilterTodo);
+  const SearchTodo = FilterTodo.filter((todo) =>
+    todo.name.toLowerCase().includes(SearchInput.toLowerCase().trim())
+  );
+
+  const todoLength = todo.length;
+  const completedTodo = todo.filter((todo) => todo.completed === true).length;
+  const PendingTodo = todo.filter((todo) => !todo.completed === true).length;
+
   return (
     <>
-      <div className="bg-gray-700 min-h-screen text-white  text-center">
+      <div className="bg-gray-800 min-h-screen text-white  text-center">
         <div>
           <h1 className="text-2xl text-center text-white font-bold">
             Todo Task With TS
           </h1>
         </div>
         <div className="mt-5 ">
-          <span className="px-3 text-xl">Enter you task :-</span>
-          <input
-            type="text"
-            onChange={(e) => setinput(e.target.value)}
-            placeholder="Enter your Task"
-            value={input}
-            className="border-2 border-gray-500 px-2 py-1 rounded "
-          />
-          <div className="mt-5">
-            <button
-              onClick={AddTodo}
-              className="px-2 py-1 font-bold rounded bg-gradient-to-l from-amber-300 to-amber-600"
-            >
-              Add todo
-            </button>
-            <select
-              onChange={(e) => setFilterBy(e.target.value as FilterInterface)}
-              className="bg-gray-700 mx-5 border-2 border-black px-2 py-1 rounded"
-            >
-              <option value="All">All</option>
-              <option value="Completed">Completed</option>
-              <option value="Pending">Pending</option>
-            </select>
+          <div className="w-full max-w-2xl mx-auto p-6 bg-gray-900 rounded-2xl shadow-lg">
+            <label className="block text-lg font-semibold text-gray-200 mb-2">
+              Enter your task:
+            </label>
+
+            <div className="flex gap-3">
+              <input
+                type="text"
+                onChange={(e) => setinput(e.target.value)}
+                placeholder="Enter your Task"
+                value={input}
+                className="flex-1 border border-gray-700 bg-gray-800 text-gray-200 
+                 focus:ring-2 focus:ring-amber-400 px-3 py-2 rounded-lg 
+                 shadow-sm outline-none transition"
+              />
+              <button
+                onClick={AddTodo}
+                className="px-4 py-2 font-semibold rounded-lg bg-gradient-to-r 
+                  from-teal-400 to-cyan-500 text-gray-900 shadow 
+                 hover:opacity-90 transition"
+              >
+                Add
+              </button>
+            </div>
+
+            <div className="mt-6 flex flex-wrap gap-3 items-center">
+              <select
+                onChange={(e) => setFilterBy(e.target.value as FilterInterface)}
+                className="border border-gray-700 bg-gray-800 text-gray-200 
+                 px-3 py-2 rounded-lg shadow-sm 
+                 focus:ring-2 focus:ring-amber-400 outline-none"
+              >
+                <option value="All">All</option>
+                <option value="Completed">Completed</option>
+                <option value="Pending">Pending</option>
+              </select>
+
+              <div className="flex gap-2 flex-1">
+                <input
+                  type="text"
+                  placeholder="Search..."
+                  onChange={(e) => setSearchinput(e.target.value)}
+                  className="flex-1 border border-gray-700 bg-gray-800 text-gray-200 
+                   px-3 py-2 rounded-lg shadow-sm 
+                   focus:ring-2 focus:ring-amber-400 outline-none"
+                />
+                <button
+                  className="px-4 py-2 font-semibold rounded-lg bg-gradient-to-r from-teal-400 to-cyan-500
+ text-gray-900 shadow 
+                         hover:opacity-90 transition"
+                >
+                  Search
+                </button>
+              </div>
+            </div>
           </div>
-          <div className="grid grid-cols-1 mx-auto max-w-xl justify-center mt-10">
+
+          <div className="grid grid-cols-1 mx-auto max-w-2xl justify-center mt-10">
+            <div className="flex justify-end">
+              <div className="bg-gray-800 font-semibold rounded-full px-4 py-1 text-sm shadow-md flex gap-3">
+                <span className="text-green-400">
+                  {completedTodo}/{todoLength} Completed
+                </span>
+                <span className="text-yellow-400">{PendingTodo} Pending</span>
+              </div>
+            </div>
+
             <TodoTs
-              todos={FilterTodo}
+              todos={SearchTodo}
               toggleComplete={toggleComplete}
               DeleteTodo={DeleteTodo}
               UpdateTodo={UpdateTodo}

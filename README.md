@@ -3,7 +3,7 @@
 A combined **React + TypeScript project** featuring:
 
 - **Todo App**: Add, delete, toggle, and filter tasks.
-- **Crypto Tracker**: Display multiple cryptocurrencies with price and 24h change. Conditional styling for gains/losses.
+- **Crypto Tracker**: Cryptocurrency data fetched from CoinGecko API with Redux state management.
 
 ---
 
@@ -17,17 +17,37 @@ A combined **React + TypeScript project** featuring:
 - Organized components (`Todo.tsx`, `TodoItem.tsx`)
 
 ### Crypto Tracker
-- Display array of cryptocurrencies
-- Conditional styling: green for positive change, red for negative
-- Hover effects for better UI
-- Reusable `CryptoCard` component
+- One-time data fetch from CoinGecko API
+- Redux + TypeScript state management
+- Sort cryptocurrencies by price
+- Display price and 24h change
+- Conditional styling for price movements (green/red)
+- Note: Not real-time data (static fetch)
 
 ---
 
 ## Tech Stack
 - React
 - TypeScript
+- Redux Toolkit
+- CoinGecko API
 - Tailwind CSS
+
+---
+
+## API Implementation
+```typescript
+// One-time fetch on component mount
+useEffect(() => {
+  dispatch(getdata());
+}, []);
+```
+
+## State Management
+- Redux store with TypeScript
+- Async thunks for API calls
+- Price-based sorting functionality
+- Static data management (no WebSocket/real-time updates)
 
 ---
 
@@ -40,6 +60,10 @@ src/
  ┃ ┗ Todo/
  ┃   ┣ Todo.tsx
  ┃   ┗ TodoTs.tsx
+ ┣ store/
+ ┃ ┣ slices/
+ ┃ ┃ ┗ cryptoSlice.ts
+ ┃ ┗ store.ts
  ┣ App.tsx
  ┣ main.tsx
 ```
@@ -71,7 +95,8 @@ npm run dev
 ---
 
 ## Notes
-- Day-2 project of learning React + TypeScript
-- Minimal AI guidance used only for design clarification
-- Project structured for **clean folder separation** and **reusable components**
-- This project is **only for practice to improve my skills**
+- Integration with CoinGecko API (static fetch, not real-time)
+- Redux implementation with TypeScript for practice
+- Price-based sorting functionality
+- Type-safe state management
+- This project is **for learning and practicing TypeScript with Redux**
