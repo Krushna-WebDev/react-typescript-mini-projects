@@ -10,17 +10,24 @@ const CryptoItem = () => {
   const dispatch = useDispatch<AppDispatch>();
   const [sortPrice, setSortPrice] = useState<SortType | "">("");
   const data = useSelector((state: RootState) => state.crypto.cryptoData);
+  const [searchinput, setSearchInput] = useState<string>("");
 
   useEffect(() => {
     dispatch(getdata());
   }, []);
-
-  console.log("data", data);
+console.log(data)
   const sortedData = sortPrice
     ? [...data].sort((a, b) =>
-        sortPrice === "LTH" ? a.current_price - b.current_price : b.current_price - a.current_price
+        sortPrice === "LTH"
+          ? a.current_price - b.current_price
+          : b.current_price - a.current_price
       )
     : data;
+
+  console.log(searchinput);
+  const searchedData = sortedData.filter((data) =>
+    data.name.toLowerCase().includes(searchinput.toLowerCase())
+  );
   return (
     <div className="bg-gray-900 min-h-screen text-center ">
       <span className="font-semibold text-gray-300 text-xl px-2">Price: </span>
@@ -37,9 +44,33 @@ const CryptoItem = () => {
       >
         clear
       </button>
-      {sortedData.map((d) => (
-        <CryptoCard name={d.name} price={d.current_price} change={d.high_24h} img={d.image} symbol={d.symbol} />
-      ))}
+      <input
+        type="text"
+        placeholder="search..."
+        onChange={(e) => setSearchInput(e.target.value)}
+        className="py-1 px-2 rounded bg-gray-800 text-white"
+      />
+
+      {searchedData.length > 0 ? (
+        searchedData.map((d) => (
+          <CryptoCard
+            key={d.id}
+            name={d.name}
+            price={d.current_price}
+            change={d.high_24h}
+            img={d.image}
+            symbol={d.symbol}
+          />
+        ))
+      ) : (
+        <div className="flex items-center justify-center mt-10">
+          <div className="bg-gray-800 rounded-lg p-6 shadow-lg">
+            <p className="text-gray-300 text-xl font-medium">
+              No cryptocurrencies found matching "{searchinput}"
+            </p>
+          </div>
+        </div>
+      )}
     </div>
   );
 };

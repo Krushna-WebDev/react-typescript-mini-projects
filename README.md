@@ -20,6 +20,7 @@ A combined **React + TypeScript project** featuring:
 - One-time data fetch from CoinGecko API
 - Redux + TypeScript state management
 - Sort cryptocurrencies by price
+- search by Name
 - Display price and 24h change
 - Conditional styling for price movements (green/red)
 - Note: Not real-time data (static fetch)
